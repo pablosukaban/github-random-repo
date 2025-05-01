@@ -22,8 +22,6 @@ type Language = {
 
 const currentLanguage = ref('')
 
-const isRepo = computed(() => repo.value !== null)
-
 const {
   data: languages,
   error: lanError,
@@ -34,12 +32,10 @@ const {
 
 const [{ repo, loading: repoLoading, error: repoError }, getRepos] = useOctokit()
 
+const isRepo = computed(() => repo.value !== null)
+
 function handleSelect(val: string) {
   currentLanguage.value = val
-}
-
-async function click() {
-  getRepos(currentLanguage.value)
 }
 </script>
 
@@ -66,7 +62,7 @@ async function click() {
           </div>
         </CardContent>
         <CardFooter class="flex justify-between px-6 pb-6">
-          <Button @click="click()">Search</Button>
+          <Button @click="getRepos(currentLanguage)" :disabled="repoLoading">Search</Button>
         </CardFooter>
       </Card>
       <Card class="w-[350px]" v-if="repo">

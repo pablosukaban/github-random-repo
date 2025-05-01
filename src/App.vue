@@ -41,13 +41,12 @@ function handleSearch() {
 <template>
   <div v-if="langLoading">Loading</div>
   <div v-else-if="lanError">{{ lanError.message }}</div>
-  <div v-else class="grid grid-cols-2 gap-2 p-8">
+  <div v-else class="grid grid-cols-1 gap-2 p-8 max-w-lg mx-auto">
     <Card>
       <template #title>Random repo github</template>
       <template #subtitle>Select language and search</template>
       <template #content>
         <div class="flex flex-col space-y-1.5">
-          <label>Language</label>
           <Select
             v-model="currentLanguage"
             :options="languages ?? undefined"
@@ -62,13 +61,37 @@ function handleSearch() {
         <Button @click="handleSearch" :disabled="repoLoading" label="Search" />
       </template>
     </Card>
-    <Card v-if="repo">
-      <template #title>{{ repo.name }}</template>
-      <template #content>
-        {{ repo.description }}
+    <Card v-if="repo" class="justify-between h-full">
+      <template #title>
+        <div class="flex justify-between h-full">
+          <span>
+            {{ repo.full_name }}
+          </span>
+          <a target="_blank" :href="repo.html_url">
+            <i class="pi pi-external-link text-blue-300"></i>
+          </a>
+        </div>
+      </template>
+      <template #subtitle>
+        <div class="h-full">
+          {{ repo.description }}
+        </div>
       </template>
       <template #footer>
-        {{ repo.forks }}
+        <div class="flex justify-between gap-2 mt-auto">
+          <div>
+            <i class="pi pi-circle-fill"></i>
+            {{ currentLanguage?.title }}
+          </div>
+          <div>
+            <i class="pi pi-star-fill"></i>
+            {{ repo.stargazers_count }}
+          </div>
+          <div>
+            <i class="pi pi-info-circle"></i>
+            {{ repo.open_issues_count }}
+          </div>
+        </div>
       </template>
     </Card>
   </div>

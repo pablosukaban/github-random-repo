@@ -8,6 +8,9 @@ type Repo = {
   description: string | null
   language: string | null
   forks: number
+  stargazers_count: number
+  html_url: string
+  open_issues_count: number
 }
 
 function getRandomRepo(repos: Repo[]) {

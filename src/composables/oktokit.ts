@@ -21,7 +21,11 @@ export function useOctokit() {
   const loading = ref<boolean>(false)
   const error = ref<Error | null>(null)
 
-  async function getRepos(q: string) {
+  async function getRepos(q?: string) {
+    if (!q) {
+      return
+    }
+
     loading.value = true
     error.value = null
 

@@ -79,15 +79,15 @@ function handleSearch() {
       </template>
       <template #footer>
         <div class="flex justify-between gap-2 mt-auto">
-          <div>
+          <div class="flex justify-center items-center gap-2">
             <i class="pi pi-circle-fill"></i>
             {{ currentLanguage?.title }}
           </div>
-          <div>
-            <i class="pi pi-star-fill"></i>
+          <div class="flex justify-center items-center gap-2">
+            <i class="pi pi-star-fill text-amber-200"></i>
             {{ repo.stargazers_count }}
           </div>
-          <div>
+          <div class="flex justify-center items-center gap-2">
             <i class="pi pi-info-circle"></i>
             {{ repo.open_issues_count }}
           </div>

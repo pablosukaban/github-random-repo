@@ -35,6 +35,8 @@ export function useOctokit() {
     try {
       const res = await kit.request('GET /search/repositories', {
         q,
+        sort: 'stars',
+        per_page: 1000,
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',
         },

@@ -3,7 +3,10 @@ import { ref } from 'vue'
 import Button from 'primevue/button'
 import { useFetch } from './composables/fetch'
 import { useOctokit } from './composables/oktokit'
-import { Card, Select } from 'primevue'
+import { useToast } from 'primevue'
+import Toast from 'primevue/toast'
+import Card from 'primevue/card'
+import Select from 'primevue/select'
 
 type Language = {
   title: string
@@ -11,6 +14,8 @@ type Language = {
 }
 
 const currentLanguage = ref<Language | null>(null)
+
+const toast = useToast()
 
 const {
   data: languages,
@@ -21,6 +26,16 @@ const {
 )
 
 const [{ repo, loading: repoLoading, error: repoError }, getRepos] = useOctokit()
+
+function handleSearch() {
+  if (!currentLanguage.value) {
+    toast.add({ severity: 'error', summary: 'Select language', life: 3000, closable: true })
+
+    return
+  }
+
+  getRepos(currentLanguage?.value.value)
+}
 </script>
 
 <template>
@@ -44,7 +59,7 @@ const [{ repo, loading: repoLoading, error: repoError }, getRepos] = useOctokit(
         </div>
       </template>
       <template #footer>
-        <Button @click="getRepos(currentLanguage?.value)" :disabled="repoLoading" label="Search" />
+        <Button @click="handleSearch" :disabled="repoLoading" label="Search" />
       </template>
     </Card>
     <Card v-if="repo">
@@ -57,4 +72,5 @@ const [{ repo, loading: repoLoading, error: repoError }, getRepos] = useOctokit(
       </template>
     </Card>
   </div>
+  <Toast position="bottom-left" />
 </template>
